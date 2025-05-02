@@ -119,56 +119,56 @@ const ASSETS = [
 
 export default function AssetListPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+    <div className="container mx-auto px-4 py-6 sm:py-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 sm:mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-deep-navy dark:text-foreground mb-2">Explore Assets</h1>
-          <p className="text-slate dark:text-muted-foreground">Discover tokenized real-world assets with dynamic pricing</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-deep-navy dark:text-foreground mb-1 sm:mb-2">Explore Assets</h1>
+          <p className="text-sm sm:text-base text-slate dark:text-muted-foreground">Discover tokenized real-world assets with dynamic pricing</p>
         </div>
-        <div className="mt-4 md:mt-0 flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Link href="/portfolio">
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button variant="outline" size="sm" className="flex items-center gap-1 sm:gap-2 h-9 text-xs sm:text-sm">
               My Portfolio
             </Button>
           </Link>
-          <Button variant="outline" className="flex items-center gap-2">
-            <Filter className="h-4 w-4" />
-            Filter
+          <Button variant="outline" size="sm" className="flex items-center gap-1 sm:gap-2 h-9 text-xs sm:text-sm">
+            <Filter className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <span className="hidden xs:inline">Filter</span>
           </Button>
-          <Button variant="outline" className="flex items-center gap-2">
-            Sort by
-            <ChevronDown className="h-4 w-4" />
+          <Button variant="outline" size="sm" className="flex items-center gap-1 sm:gap-2 h-9 text-xs sm:text-sm">
+            <span className="hidden xs:inline">Sort by</span>
+            <ChevronDown className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </Button>
         </div>
       </div>
       
       {/* Search bar */}
-      <div className="relative mb-8">
+      <div className="relative mb-6 sm:mb-8">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-          <Search className="h-5 w-5 text-muted-foreground" />
+          <Search className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
         </div>
         <Input 
           type="text" 
           placeholder="Search assets by name, category, or description..." 
-          className="w-full pl-10"
+          className="w-full pl-10 h-9 sm:h-10 text-sm"
         />
       </div>
       
       {/* Asset grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {ASSETS.map((asset) => (
           <Link href={`/asset/${asset.id}`} key={asset.id} className="group h-full">
             <div className="bg-card border border-border rounded-lg overflow-hidden shadow-sm transition-all group-hover:shadow-md h-full flex flex-col">
               {/* Image and badge section */}
-              <div className="relative h-48 w-full bg-muted flex-shrink-0">
+              <div className="relative h-40 sm:h-48 w-full bg-muted flex-shrink-0">
                 <div className="absolute top-2 right-2 z-10">
-                  <Badge variant="navy">
+                  <Badge variant="navy" className="text-xs">
                     {asset.assetType.replace('_', ' ')}
                   </Badge>
                 </div>
                 {asset.isListed && (
                   <div className="absolute top-2 left-2 z-10">
-                    <Badge variant="outline" className="bg-teal-accent/20 text-teal-accent border-teal-accent/30">
+                    <Badge variant="outline" className="bg-teal-accent/20 text-teal-accent border-teal-accent/30 text-xs">
                       <Tag className="h-3 w-3 mr-1" />
                       For Sale
                     </Badge>
@@ -183,19 +183,19 @@ export default function AssetListPage() {
               </div>
               
               {/* Asset details section */}
-              <div className="p-6 flex flex-col flex-grow">
+              <div className="p-4 sm:p-6 flex flex-col flex-grow">
                 {/* Title and verification status */}
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-xl font-semibold text-foreground group-hover:text-ocean-blue transition-colors">
+                <div className="flex items-start justify-between mb-2 gap-2">
+                  <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-ocean-blue transition-colors">
                     {asset.name}
                   </h3>
                   {asset.isVerified ? (
-                    <Badge variant="outline" className="bg-green-50 dark:bg-transparent text-green-600 border-green-200">
+                    <Badge variant="outline" className="bg-green-50 dark:bg-transparent text-green-600 border-green-200 text-xs whitespace-nowrap flex-shrink-0">
                       <CheckCircle className="h-3 w-3 mr-1" />
                       Verified
                     </Badge>
                   ) : (
-                    <Badge variant="outline" className="bg-yellow-50 dark:bg-transparent text-yellow-600 border-yellow-200">
+                    <Badge variant="outline" className="bg-yellow-50 dark:bg-transparent text-yellow-600 border-yellow-200 text-xs whitespace-nowrap flex-shrink-0">
                       <Clock className="h-3 w-3 mr-1" />
                       Pending
                     </Badge>
@@ -205,18 +205,18 @@ export default function AssetListPage() {
                 {/* Asset token ID and location */}
                 <div className="flex items-center justify-between text-xs text-muted-foreground mb-2">
                   <span>Token ID: {asset.tokenId}</span>
-                  <span>{asset.assetLocation}</span>
+                  <span className="truncate ml-2 text-right">{asset.assetLocation}</span>
                 </div>
                 
                 {/* Asset description */}
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
+                <p className="text-muted-foreground text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">
                   {asset.description}
                 </p>
                 
                 {/* Pricing info */}
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex justify-between items-center mb-3 sm:mb-4">
                   <div>
-                    <p className="text-foreground font-bold">${asset.currentPrice}</p>
+                    <p className="text-foreground font-bold text-sm sm:text-base">${asset.currentPrice}</p>
                     <p className={`text-xs font-medium ${asset.priceChange.startsWith('+') ? 'text-success-green' : 'text-alert-red'}`}>
                       {asset.priceChange} (24h)
                     </p>
@@ -228,10 +228,10 @@ export default function AssetListPage() {
                 </div>
                 
                 {/* This will push the confidence score to the bottom */}
-                <div className="mt-auto pt-4">
+                <div className="mt-auto pt-3 sm:pt-4">
                   {/* Confidence score */}
                   <div className="flex items-center">
-                    <div className="h-2 bg-muted rounded-full w-full overflow-hidden">
+                    <div className="h-1.5 sm:h-2 bg-muted rounded-full w-full overflow-hidden">
                       <div 
                         className="h-full bg-primary rounded-full" 
                         style={{ width: `${asset.confidenceScore}%` }}
@@ -247,14 +247,27 @@ export default function AssetListPage() {
       </div>
       
       {/* Pagination */}
-      <div className="mt-12 flex justify-center">
-        <div className="flex space-x-1">
-          <Button variant="outline" size="sm" disabled>Previous</Button>
-          <Button variant="teal" size="sm">1</Button>
-          <Button variant="outline" size="sm">2</Button>
-          <Button variant="outline" size="sm">3</Button>
-          <Button variant="outline" size="sm">Next</Button>
-        </div>
+      <div className="mt-8 sm:mt-12 flex justify-center">
+        <nav className="inline-flex items-center gap-1">
+          <Button variant="outline" size="sm" className="h-8 w-8 p-0 text-xs">
+            <span className="sr-only">Previous</span>
+            &lsaquo;
+          </Button>
+          {[1, 2, 3].map((page) => (
+            <Button
+              key={page}
+              variant={page === 1 ? "default" : "outline"}
+              size="sm"
+              className="h-8 w-8 p-0 text-xs"
+            >
+              {page}
+            </Button>
+          ))}
+          <Button variant="outline" size="sm" className="h-8 w-8 p-0 text-xs">
+            <span className="sr-only">Next</span>
+            &rsaquo;
+          </Button>
+        </nav>
       </div>
     </div>
   );

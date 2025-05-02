@@ -162,7 +162,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
                 <WalletConnectButton />
                 <Link href="/asset" passHref>
-                  <Button variant="outline" className="border-white border-opacity-30 text-white hover:bg-white hover:bg-opacity-10">
+                  <Button variant="outline" className="border-white border-opacity-30 dark:text-white hover:bg-white hover:bg-opacity-10">
                     Explore Assets
                     <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -479,7 +479,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <WalletConnectButton />
             <Link href="/docs" passHref>
-              <Button variant="outline" className="border-white border-opacity-30 text-white hover:bg-white hover:bg-opacity-10">
+              <Button variant="outline" className="border-white border-opacity-30 dark:text-white hover:bg-white hover:bg-opacity-10">
                 Learn How It Works
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>

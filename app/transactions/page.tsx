@@ -124,35 +124,35 @@ export default function TransactionsPage() {
       case TransactionType.BUY:
         return (
           <div className="flex items-center">
-            <ArrowDownLeft className="h-4 w-4 mr-1 text-green-500" />
+            <ArrowDownLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 text-green-500" />
             <span>Buy</span>
           </div>
         )
       case TransactionType.SELL:
         return (
           <div className="flex items-center">
-            <ArrowUpRight className="h-4 w-4 mr-1 text-red-500" />
+            <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 text-red-500" />
             <span>Sell</span>
           </div>
         )
       case TransactionType.TRANSFER_IN:
         return (
           <div className="flex items-center">
-            <ArrowDownLeft className="h-4 w-4 mr-1 text-blue-500" />
+            <ArrowDownLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 text-blue-500" />
             <span>Transfer In</span>
           </div>
         )
       case TransactionType.TRANSFER_OUT:
         return (
           <div className="flex items-center">
-            <ArrowUpRight className="h-4 w-4 mr-1 text-orange-500" />
+            <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 text-orange-500" />
             <span>Transfer Out</span>
           </div>
         )
       case TransactionType.LIST:
         return (
           <div className="flex items-center">
-            <RefreshCw className="h-4 w-4 mr-1 text-purple-500" />
+            <RefreshCw className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 text-purple-500" />
             <span>List</span>
           </div>
         )
@@ -166,21 +166,21 @@ export default function TransactionsPage() {
     switch(status) {
       case TransactionStatus.CONFIRMED:
         return (
-          <Badge variant="outline" className="bg-green-50 dark:bg-transparent text-green-600 border-green-200">
+          <Badge variant="outline" className="bg-green-50 dark:bg-transparent text-green-600 border-green-200 text-xs h-6">
             <CheckCircle className="h-3 w-3 mr-1" />
             Confirmed
           </Badge>
         )
       case TransactionStatus.PENDING:
         return (
-          <Badge variant="outline" className="bg-yellow-50 dark:bg-transparent text-yellow-600 border-yellow-200">
+          <Badge variant="outline" className="bg-yellow-50 dark:bg-transparent text-yellow-600 border-yellow-200 text-xs h-6">
             <Clock className="h-3 w-3 mr-1" />
             Pending
           </Badge>
         )
       case TransactionStatus.FAILED:
         return (
-          <Badge variant="outline" className="bg-red-50 dark:bg-transparent text-red-600 border-red-200">
+          <Badge variant="outline" className="bg-red-50 dark:bg-transparent text-red-600 border-red-200 text-xs h-6">
             <AlertCircle className="h-3 w-3 mr-1" />
             Failed
           </Badge>
@@ -206,27 +206,27 @@ export default function TransactionsPage() {
   );
   
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
+    <div className="container mx-auto px-4 py-6 sm:py-8">
+      <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Transactions</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1 sm:mb-2">Transactions</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             View and manage your blockchain transaction history
           </p>
           {address && (
-            <Badge variant="outline" className="mt-2">
+            <Badge variant="outline" className="mt-1.5 sm:mt-2 text-xs">
               <Wallet className="h-3 w-3 mr-1" />
               {`${address.slice(0, 6)}...${address.slice(-4)}`}
             </Badge>
           )}
         </div>
-        <div className="mt-4 md:mt-0 flex gap-2">
-          <Button variant="outline" size="sm" className="flex items-center gap-1">
-            <Filter className="h-4 w-4" />
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" className="flex items-center gap-1 text-xs h-8 sm:h-9">
+            <Filter className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             Filter
           </Button>
-          <Button variant="outline" size="sm" className="flex items-center gap-1">
-            <Download className="h-4 w-4" />
+          <Button variant="outline" size="sm" className="flex items-center gap-1 text-xs h-8 sm:h-9">
+            <Download className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             Export
           </Button>
         </div>
@@ -234,47 +234,102 @@ export default function TransactionsPage() {
       
       {/* Pending Transactions Section */}
       {pendingTransactions.length > 0 && (
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
             <div className="flex items-center">
-              <RotateCw className="h-5 w-5 mr-2 text-primary animate-spin" />
-              <h2 className="text-lg font-semibold">Pending Transactions</h2>
+              <RotateCw className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 text-primary animate-spin" />
+              <h2 className="text-base sm:text-lg font-semibold">Pending Transactions</h2>
             </div>
-            <Button variant="outline" size="sm" className="flex items-center gap-1">
-              <RefreshCw className="h-4 w-4 mr-1" />
+            <Button variant="outline" size="sm" className="flex items-center gap-1 text-xs h-8 sm:h-9">
+              <RefreshCw className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1" />
               Refresh Status
             </Button>
           </div>
           
           <div className="bg-card border border-border rounded-lg overflow-hidden">
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto -mx-3 sm:mx-0">
+              <div className="min-w-[700px] px-3 sm:px-0 sm:min-w-0">
+                <table className="w-full">
+                  <thead className="bg-muted/50 border-b border-border">
+                    <tr>
+                      <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Type</th>
+                      <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Asset</th>
+                      <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Amount</th>
+                      <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Value</th>
+                      <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Timestamp</th>
+                      <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Transaction Hash</th>
+                      <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Gas Used</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {pendingTransactions.map((tx) => (
+                      <tr key={tx.id} className="hover:bg-muted/20">
+                        <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">
+                          {renderTransactionType(tx.type)}
+                        </td>
+                        <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium">{tx.assetName}</td>
+                        <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">{tx.amount}</td>
+                        <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">{tx.value}</td>
+                        <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-muted-foreground">{tx.timestamp}</td>
+                        <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">{formatTxHash(tx.txHash)}</td>
+                        <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-muted-foreground">{tx.gasUsed}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Transaction History Section */}
+      <div className="mb-6 sm:mb-8">
+        <div className="flex items-center mb-3 sm:mb-4">
+          <Layers className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 text-primary" />
+          <h2 className="text-base sm:text-lg font-semibold">Transaction History</h2>
+        </div>
+        
+        <div className="bg-card border border-border rounded-lg overflow-hidden">
+          <div className="overflow-x-auto -mx-3 sm:mx-0">
+            <div className="min-w-[900px] px-3 sm:px-0 sm:min-w-0">
               <table className="w-full">
                 <thead className="bg-muted/50 border-b border-border">
                   <tr>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Type</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Asset</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Value</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Submitted</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Tx Hash</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Gas</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Status</th>
+                    <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Type</th>
+                    <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Asset</th>
+                    <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Amount</th>
+                    <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Value</th>
+                    <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Status</th>
+                    <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Timestamp</th>
+                    <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Block</th>
+                    <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Transaction Hash</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {pendingTransactions.map((tx) => (
+                  {transactions.map((tx) => (
                     <tr key={tx.id} className="hover:bg-muted/20">
-                      <td className="px-4 py-3 text-sm">{renderTransactionType(tx.type)}</td>
-                      <td className="px-4 py-3 text-sm font-medium">{tx.assetName}</td>
-                      <td className="px-4 py-3 text-sm">{tx.value}</td>
-                      <td className="px-4 py-3 text-sm text-muted-foreground">{tx.timestamp}</td>
-                      <td className="px-4 py-3 text-sm">{formatTxHash(tx.txHash)}</td>
-                      <td className="px-4 py-3 text-sm text-muted-foreground">{tx.gasUsed}</td>
-                      <td className="px-4 py-3 text-sm">
-                        <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
-                          <Clock className="h-3 w-3 mr-1" />
-                          Pending
-                        </Badge>
+                      <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">
+                        {renderTransactionType(tx.type)}
                       </td>
+                      <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium">{tx.assetName}</td>
+                      <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">{tx.amount}</td>
+                      <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">{tx.value}</td>
+                      <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">
+                        {renderStatus(tx.status)}
+                      </td>
+                      <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-muted-foreground">{tx.timestamp}</td>
+                      <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">
+                        {tx.blockNumber ? (
+                          <div className="flex items-center">
+                            <span className="text-xs">#{tx.blockNumber}</span>
+                            <Badge variant="outline" className="ml-1.5 text-xs px-1.5 py-0 h-5">
+                              {tx.confirmations} confirms
+                            </Badge>
+                          </div>
+                        ) : "-"}
+                      </td>
+                      <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">{formatTxHash(tx.txHash)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -282,72 +337,57 @@ export default function TransactionsPage() {
             </div>
           </div>
         </div>
-      )}
-      
-      {/* Transaction History */}
-      <div className="mb-4">
-        <div className="flex items-center mb-4">
-          <Layers className="h-5 w-5 mr-2 text-primary" />
-          <h2 className="text-lg font-semibold">Transaction History</h2>
-        </div>
       </div>
       
-      <div className="bg-card border border-border rounded-lg overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-muted/50 border-b border-border">
-              <tr>
-                <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Type</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Asset</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Amount</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Value</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Status</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Date</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Transaction ID</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {transactions.map((tx) => (
-                <tr key={tx.id} className="hover:bg-muted/20">
-                  <td className="px-4 py-3 text-sm">{renderTransactionType(tx.type)}</td>
-                  <td className="px-4 py-3 text-sm font-medium">{tx.assetName}</td>
-                  <td className="px-4 py-3 text-sm">{tx.amount}</td>
-                  <td className="px-4 py-3 text-sm font-medium">{tx.value}</td>
-                  <td className="px-4 py-3 text-sm">{renderStatus(tx.status)}</td>
-                  <td className="px-4 py-3 text-sm text-muted-foreground">{tx.timestamp}</td>
-                  <td className="px-4 py-3 text-sm">
-                    <div className="space-y-1">
-                      <div>{formatTxHash(tx.txHash)}</div>
-                      {tx.blockNumber && (
-                        <div className="text-xs text-muted-foreground">
-                          {tx.confirmations} confirmations
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {/* Blockchain Info Section */}
+      <div className="bg-muted/30 border border-border rounded-lg p-3 sm:p-4 mb-6 sm:mb-8">
+        <div className="flex items-center mb-3 sm:mb-4">
+          <h3 className="text-sm sm:text-base font-medium">Smart Contract Information</h3>
         </div>
-        
-        {transactions.length === 0 && (
-          <div className="py-8 text-center">
-            <p className="text-muted-foreground">No transactions found</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+          <div className="p-2 sm:p-3 bg-card border border-border rounded-md">
+            <p className="text-xs text-muted-foreground mb-1">Dynamic Pricing Agent</p>
+            <div className="flex items-center">
+              <span className="text-xs sm:text-sm font-mono mr-1.5">{CONTRACT_ADDRESSES.DynamicPricingAgent.slice(0, 6)}...{CONTRACT_ADDRESSES.DynamicPricingAgent.slice(-4)}</span>
+              <a 
+                href={`https://etherscan.io/address/${CONTRACT_ADDRESSES.DynamicPricingAgent}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80"
+              >
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
           </div>
-        )}
-        
-        <div className="p-4 border-t border-border flex justify-between items-center">
-          <p className="text-sm text-muted-foreground">
-            Showing {transactions.length} transactions
-          </p>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" disabled>
-              Previous
-            </Button>
-            <Button variant="outline" size="sm" disabled>
-              Next
-            </Button>
+          
+          <div className="p-2 sm:p-3 bg-card border border-border rounded-md">
+            <p className="text-xs text-muted-foreground mb-1">RWA Asset Contract</p>
+            <div className="flex items-center">
+              <span className="text-xs sm:text-sm font-mono mr-1.5">{CONTRACT_ADDRESSES.RWAAssetContract.slice(0, 6)}...{CONTRACT_ADDRESSES.RWAAssetContract.slice(-4)}</span>
+              <a 
+                href={`https://etherscan.io/address/${CONTRACT_ADDRESSES.RWAAssetContract}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80"
+              >
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
+          </div>
+          
+          <div className="p-2 sm:p-3 bg-card border border-border rounded-md">
+            <p className="text-xs text-muted-foreground mb-1">Marketplace Contract</p>
+            <div className="flex items-center">
+              <span className="text-xs sm:text-sm font-mono mr-1.5">{CONTRACT_ADDRESSES.MarketplaceContract.slice(0, 6)}...{CONTRACT_ADDRESSES.MarketplaceContract.slice(-4)}</span>
+              <a 
+                href={`https://etherscan.io/address/${CONTRACT_ADDRESSES.MarketplaceContract}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80"
+              >
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
           </div>
         </div>
       </div>

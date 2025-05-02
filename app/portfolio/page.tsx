@@ -7,43 +7,37 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import {
   Search,
   Filter,
-  ChevronDown,
   CheckCircle,
   TrendingUp,
   Wallet,
   AlertCircle,
   BarChart3,
-  Shield,
   Tag,
-  Award
+  Award,
+  Grid3X3,
+  List,
+  Clock,
+  CircleDollarSign,
+  Edit,
+  ArrowRight,
 } from 'lucide-react'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { Progress } from '@/components/ui/progress'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 // Mock user portfolio data
 const PORTFOLIO_ASSETS = [
@@ -132,6 +126,7 @@ export default function PortfolioPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedAssetType, setSelectedAssetType] = useState("ALL")
   const [selectedSort, setSelectedSort] = useState("VALUE_DESC")
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   
   // Calculate total portfolio value
   const totalPortfolioValue = PORTFOLIO_ASSETS.reduce((sum, asset) => {
@@ -169,395 +164,370 @@ export default function PortfolioPage() {
   });
   
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+    <div className="container mx-auto px-4 py-6 sm:py-8">
+      <div className="mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">My Portfolio</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1 sm:mb-2">My Portfolio</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">
               Manage your tokenized real-world assets
             </p>
+            {address && (
+              <Badge variant="outline" className="mt-1.5 sm:mt-2 text-xs sm:text-sm">
+                <Wallet className="h-3 w-3 mr-1" />
+                {`${address.slice(0, 6)}...${address.slice(-4)}`}
+              </Badge>
+            )}
+          </div>
+          <div className="mt-4 sm:mt-0 flex flex-col items-start sm:items-end">
+            <p className="text-muted-foreground text-xs sm:text-sm">Total Portfolio Value</p>
+            <p className="text-xl sm:text-2xl font-bold">${totalPortfolioValue}</p>
+            <Link href="/marketplace" className="text-xs sm:text-sm text-primary flex items-center mt-1">
+              Browse marketplace
+              <ArrowRight className="h-3 w-3 ml-1" />
+            </Link>
           </div>
         </div>
-        
-        {!isConnected ? (
-          <div className="mt-6 p-6 border border-yellow-200 bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-900/30 rounded-lg text-center">
-            <AlertCircle className="h-12 w-12 text-yellow-600 dark:text-yellow-500 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-yellow-800 dark:text-yellow-400 mb-2">Wallet Not Connected</h3>
-            <p className="text-yellow-700 dark:text-yellow-500 mb-6 max-w-md mx-auto">
-              Please connect your wallet to view your tokenized asset portfolio and manage your holdings.
-            </p>
-            <Button>Connect Wallet</Button>
-          </div>
-        ) : (
-          <>
-            {/* Portfolio Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg flex items-center">
-                    <Wallet className="mr-2 h-5 w-5 text-primary" />
-                    Total Portfolio Value
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold">${totalPortfolioValue}</div>
-                  <p className="text-sm text-muted-foreground mt-1">Across {PORTFOLIO_ASSETS.length} assets</p>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg flex items-center">
-                    <Award className="mr-2 h-5 w-5 text-primary" />
-                    Highest Ownership
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold">
-                    {PORTFOLIO_ASSETS.sort((a, b) => parseInt(b.ownership) - parseInt(a.ownership))[0].ownership}
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {PORTFOLIO_ASSETS.sort((a, b) => parseInt(b.ownership) - parseInt(a.ownership))[0].name}
-                  </p>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg flex items-center">
-                    <BarChart3 className="mr-2 h-5 w-5 text-primary" />
-                    Asset Diversification
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Art</span>
-                    <span>{(PORTFOLIO_ASSETS.filter(a => a.assetType === "ART").length / PORTFOLIO_ASSETS.length * 100).toFixed(0)}%</span>
-                  </div>
-                  <Progress value={PORTFOLIO_ASSETS.filter(a => a.assetType === "ART").length / PORTFOLIO_ASSETS.length * 100} className="h-2" />
-                  
-                  <div className="flex justify-between text-sm">
-                    <span>Real Estate</span>
-                    <span>{(PORTFOLIO_ASSETS.filter(a => a.assetType === "REAL_ESTATE").length / PORTFOLIO_ASSETS.length * 100).toFixed(0)}%</span>
-                  </div>
-                  <Progress value={PORTFOLIO_ASSETS.filter(a => a.assetType === "REAL_ESTATE").length / PORTFOLIO_ASSETS.length * 100} className="h-2" />
-                  
-                  <div className="flex justify-between text-sm">
-                    <span>Collectibles</span>
-                    <span>{(PORTFOLIO_ASSETS.filter(a => a.assetType === "COLLECTIBLE").length / PORTFOLIO_ASSETS.length * 100).toFixed(0)}%</span>
-                  </div>
-                  <Progress value={PORTFOLIO_ASSETS.filter(a => a.assetType === "COLLECTIBLE").length / PORTFOLIO_ASSETS.length * 100} className="h-2" />
-                </CardContent>
-              </Card>
-            </div>
+      </div>
+      
+      {!isConnected ? (
+        <div className="mt-6 p-4 sm:p-6 border border-yellow-200 bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-900/30 rounded-lg text-center">
+          <AlertCircle className="h-10 w-10 sm:h-12 sm:w-12 text-yellow-600 dark:text-yellow-500 mx-auto mb-3 sm:mb-4" />
+          <h3 className="text-lg sm:text-xl font-semibold text-yellow-800 dark:text-yellow-400 mb-1.5 sm:mb-2">Wallet Not Connected</h3>
+          <p className="text-yellow-700 dark:text-yellow-500 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base">
+            Please connect your wallet to view your tokenized asset portfolio and manage your holdings.
+          </p>
+          <Button>Connect Wallet</Button>
+        </div>
+      ) : (
+        <>
+          {/* Portfolio Summary Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-8">
+            <Card>
+              <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-4 pt-3 sm:pt-4">
+                <CardTitle className="text-base sm:text-lg flex items-center">
+                  <Wallet className="mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                  Total Portfolio Value
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="px-3 sm:px-4 pb-3 sm:pb-4">
+                <div className="text-xl sm:text-3xl font-bold">${totalPortfolioValue}</div>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 sm:mt-1">Across {PORTFOLIO_ASSETS.length} assets</p>
+              </CardContent>
+            </Card>
             
-            <div className="flex flex-col md:flex-row gap-4 mb-6">
-              <div className="relative flex-grow">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Search your assets..." 
-                  className="pl-10"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              
-              <div className="flex gap-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="flex items-center gap-2">
-                      <Filter className="h-4 w-4" />
-                      {ASSET_TYPES.find(type => type.id === selectedAssetType)?.name}
-                      <ChevronDown className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-[200px]">
-                    <DropdownMenuLabel>Filter by Asset Type</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {ASSET_TYPES.map(type => (
-                      <DropdownMenuItem 
-                        key={type.id} 
-                        className={selectedAssetType === type.id ? "bg-muted" : ""}
-                        onClick={() => setSelectedAssetType(type.id)}
-                      >
-                        {type.name}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="flex items-center gap-2">
-                      <TrendingUp className="h-4 w-4" />
-                      Sort
-                      <ChevronDown className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-[200px]">
-                    <DropdownMenuLabel>Sort By</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {SORT_OPTIONS.map(option => (
-                      <DropdownMenuItem 
-                        key={option.id} 
-                        className={selectedSort === option.id ? "bg-muted" : ""}
-                        onClick={() => setSelectedSort(option.id)}
-                      >
-                        {option.name}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </div>
-            
-            <Tabs defaultValue="grid" className="mb-6">
-              <div className="flex justify-between items-center">
-                <div className="text-sm text-muted-foreground">
-                  Showing {sortedAssets.length} {sortedAssets.length === 1 ? 'asset' : 'assets'}
+            <Card>
+              <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-4 pt-3 sm:pt-4">
+                <CardTitle className="text-base sm:text-lg flex items-center">
+                  <Award className="mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                  Highest Ownership
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="px-3 sm:px-4 pb-3 sm:pb-4">
+                <div className="text-xl sm:text-3xl font-bold">
+                  {PORTFOLIO_ASSETS.sort((a, b) => parseInt(b.ownership) - parseInt(a.ownership))[0].ownership}
                 </div>
-                <TabsList>
-                  <TabsTrigger value="grid">Grid View</TabsTrigger>
-                  <TabsTrigger value="list">List View</TabsTrigger>
-                </TabsList>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 sm:mt-1 line-clamp-1">
+                  {PORTFOLIO_ASSETS.sort((a, b) => parseInt(b.ownership) - parseInt(a.ownership))[0].name}
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader className="pb-1 sm:pb-2 px-3 sm:px-4 pt-3 sm:pt-4">
+                <CardTitle className="text-base sm:text-lg flex items-center">
+                  <BarChart3 className="mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                  Average Confidence Score
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="px-3 sm:px-4 pb-3 sm:pb-4">
+                <div className="text-xl sm:text-3xl font-bold">
+                  {Math.round(PORTFOLIO_ASSETS.reduce((sum, asset) => sum + asset.confidenceScore, 0) / PORTFOLIO_ASSETS.length)}%
+                </div>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 sm:mt-1">
+                  AI pricing confidence
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+            <div className="relative flex-grow max-w-full sm:max-w-md">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search assets..."
+                className="pl-9 pr-4 h-9 sm:h-10 text-sm"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              <div className="relative">
+                <Select value={selectedAssetType} onValueChange={setSelectedAssetType}>
+                  <SelectTrigger className="min-w-[140px] h-9 sm:h-10 text-xs sm:text-sm">
+                    <Filter className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 text-muted-foreground" />
+                    <SelectValue placeholder="Asset Type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ASSET_TYPES.map((type) => (
+                      <SelectItem key={type.id} value={type.id} className="text-xs sm:text-sm">
+                        {type.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               
-              <TabsContent value="grid" className="mt-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {sortedAssets.length > 0 ? (
-                    sortedAssets.map(asset => (
-                      <Card key={asset.id} className="overflow-hidden transition-all hover:shadow-md">
-                        <div className="relative h-40 w-full">
+              <div className="relative">
+                <Select value={selectedSort} onValueChange={setSelectedSort}>
+                  <SelectTrigger className="min-w-[150px] h-9 sm:h-10 text-xs sm:text-sm">
+                    <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 text-muted-foreground" />
+                    <SelectValue placeholder="Sort By" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SORT_OPTIONS.map((option) => (
+                      <SelectItem key={option.id} value={option.id} className="text-xs sm:text-sm">
+                        {option.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="flex bg-muted rounded-md overflow-hidden">
+                <Button
+                  variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
+                  size="icon"
+                  onClick={() => setViewMode('grid')}
+                  className="rounded-none h-9 sm:h-10 w-9 sm:w-10"
+                >
+                  <Grid3X3 className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={viewMode === 'list' ? 'secondary' : 'ghost'}
+                  size="icon"
+                  onClick={() => setViewMode('list')}
+                  className="rounded-none h-9 sm:h-10 w-9 sm:w-10"
+                >
+                  <List className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+          
+          {/* Grid View */}
+          {viewMode === 'grid' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {sortedAssets.map((asset) => (
+                <Link href={`/asset/${asset.id}`} key={asset.id} className="block">
+                  <Card className="overflow-hidden hover:shadow-md transition-shadow h-full">
+                    <div className="relative">
+                      <div className="aspect-[16/9] bg-muted relative">
+                        {asset.imageUrl && (
                           <Image 
-                            src={asset.imageUrl}
+                            src={asset.imageUrl} 
                             alt={asset.name}
                             fill
                             className="object-cover"
                           />
-                          <div className="absolute top-2 right-2">
-                            <Badge className="bg-black/70 text-white border-none">
-                              {asset.assetType}
-                            </Badge>
-                          </div>
-                          {asset.isVerified && (
-                            <div className="absolute top-2 left-2">
-                              <Badge variant="outline" className="bg-green-50/80 dark:bg-green-900/20 text-green-600 dark:text-green-400 border-green-200">
-                                <CheckCircle className="h-3 w-3 mr-1" />
-                                Verified
-                              </Badge>
-                            </div>
+                        )}
+                      </div>
+                      <div className="absolute top-2 right-2 flex gap-1">
+                        {asset.isVerified && (
+                          <Badge variant="outline" className="bg-background/80 backdrop-blur-sm flex items-center gap-1 px-2 h-7">
+                            <CheckCircle className="h-3.5 w-3.5 text-green-500" />
+                            <span className="text-xs">Verified</span>
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <CardContent className="pt-3 sm:pt-4 px-3 sm:px-4 pb-3 sm:pb-4">
+                      <div className="mb-1.5 sm:mb-2 flex items-start justify-between">
+                        <div>
+                          <h3 className="font-semibold text-sm sm:text-base line-clamp-1">{asset.name}</h3>
+                          <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5 sm:mt-1">{asset.description}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-2.5 sm:mb-3">
+                        <Badge variant="secondary" className="text-xs">
+                          <Tag className="h-3 w-3 mr-1" />
+                          {asset.assetType === "REAL_ESTATE" ? "Real Estate" : asset.assetType.charAt(0) + asset.assetType.slice(1).toLowerCase()}
+                        </Badge>
+                        <Badge variant="outline" className="text-xs">
+                          <Clock className="h-3 w-3 mr-1" />
+                          Updated: {new Date(asset.lastUpdate).toLocaleDateString()}
+                        </Badge>
+                      </div>
+                      
+                      <div className="flex items-center justify-between mb-1 sm:mb-1.5">
+                        <div className="flex items-center gap-1">
+                          <CircleDollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
+                          <span className="font-semibold text-sm sm:text-base">${asset.totalValue}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-xs text-muted-foreground">Per Token:</span>
+                          <span className="text-xs sm:text-sm ml-1">${asset.currentPrice}</span>
+                          <span className={`text-xs ml-1 ${asset.priceChange.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
+                            {asset.priceChange}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-muted-foreground">Ownership</span>
+                        <span className="text-xs font-medium">{asset.ownership}</span>
+                      </div>
+                      <Progress value={parseInt(asset.ownership)} className="h-1.5 mt-1 bg-muted" />
+                      
+                      <div className="flex items-center justify-between mt-2">
+                        <span className="text-xs text-muted-foreground">AI Confidence</span>
+                        <span className="text-xs font-medium">{asset.confidenceScore}%</span>
+                      </div>
+                      <Progress value={asset.confidenceScore} className="h-1.5 mt-1" />
+                      
+                      <div className="mt-3 sm:mt-4">
+                        <Button className="w-full text-xs sm:text-sm h-8 sm:h-9">Manage Asset</Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          )}
+          
+          {/* List View */}
+          {viewMode === 'list' && (
+            <div className="space-y-3 sm:space-y-4">
+              {sortedAssets.map((asset) => (
+                <Link href={`/asset/${asset.id}`} key={asset.id} className="block">
+                  <Card className="overflow-hidden hover:shadow-md transition-shadow">
+                    <div className="flex flex-col sm:flex-row">
+                      <div className="relative sm:w-60 lg:w-72">
+                        <div className="aspect-[16/9] sm:aspect-auto sm:h-full bg-muted relative">
+                          {asset.imageUrl && (
+                            <Image 
+                              src={asset.imageUrl} 
+                              alt={asset.name}
+                              fill
+                              className="object-cover"
+                            />
                           )}
                         </div>
-                        <CardContent className="p-4">
-                          <div className="flex items-start justify-between mb-2">
-                            <div>
-                              <h3 className="font-semibold truncate">{asset.name}</h3>
-                              <p className="text-xs text-muted-foreground">ID: {asset.tokenId}</p>
-                            </div>
-                            <TooltipProvider>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Link href={`/verify/${asset.id}`} className="text-muted-foreground hover:text-primary">
-                                    <Shield className="h-5 w-5" />
-                                  </Link>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                  <p>Verify Ownership</p>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          </div>
-                          
-                          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{asset.description}</p>
-                          
-                          <div className="flex items-center justify-between mb-2">
-                            <div>
-                              <p className="text-sm text-muted-foreground">Current Price</p>
-                              <p className="text-lg font-bold">${asset.currentPrice}</p>
-                            </div>
-                            <Badge variant="outline" className={`${parseFloat(asset.priceChange) >= 0 ? 'bg-green-50 text-green-600 border-green-200' : 'bg-red-50 text-red-600 border-red-200'}`}>
-                              <TrendingUp className="h-3 w-3 mr-1" />
-                              {asset.priceChange}
+                        <div className="absolute top-2 right-2 flex gap-1">
+                          {asset.isVerified && (
+                            <Badge variant="outline" className="bg-background/80 backdrop-blur-sm flex items-center gap-1 px-2 h-7">
+                              <CheckCircle className="h-3.5 w-3.5 text-green-500" />
+                              <span className="text-xs">Verified</span>
                             </Badge>
-                          </div>
-                          
-                          <div className="mb-4">
-                            <div className="flex justify-between text-sm mb-1">
-                              <span className="text-muted-foreground">Owned: {asset.ownedSupply}/{asset.supply}</span>
-                              <span className="font-medium">{asset.ownership}</span>
-                            </div>
-                            <Progress value={parseInt(asset.ownership)} className="h-2" />
-                          </div>
-                          
-                          <div className="flex justify-between items-center">
-                            <p className="text-sm text-muted-foreground">
-                              Value: <span className="font-medium">${asset.totalValue}</span>
-                            </p>
-                            <Link href={`/asset/${asset.id}`}>
-                              <Button variant="outline" size="sm">
-                                Manage
-                              </Button>
-                            </Link>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))
-                  ) : (
-                    <div className="col-span-full py-12 text-center">
-                      <p className="text-muted-foreground">No assets found matching your criteria</p>
-                      <Button 
-                        variant="outline" 
-                        className="mt-4"
-                        onClick={() => {
-                          setSearchQuery('');
-                          setSelectedAssetType('ALL');
-                        }}
-                      >
-                        Clear Filters
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="list" className="mt-6">
-                <div className="border border-border rounded-lg overflow-hidden">
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead className="bg-muted/50">
-                        <tr>
-                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Asset</th>
-                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Type</th>
-                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Price</th>
-                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Ownership</th>
-                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Total Value</th>
-                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Last Updated</th>
-                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-border">
-                        {sortedAssets.length > 0 ? (
-                          sortedAssets.map(asset => (
-                            <tr key={asset.id} className="hover:bg-muted/20">
-                              <td className="px-4 py-3">
+                          )}
+                        </div>
+                      </div>
+                      
+                      <CardContent className="pt-3 sm:pt-4 px-3 sm:px-4 pb-3 sm:pb-4 flex-1">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
+                          <div className="flex-1">
+                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
+                              <div>
+                                <h3 className="font-semibold text-sm sm:text-base">{asset.name}</h3>
+                                <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5 sm:mt-1">{asset.description}</p>
+                              </div>
+                              <div className="mt-2 sm:mt-0 sm:ml-4 flex flex-col sm:items-end">
                                 <div className="flex items-center">
-                                  <div className="relative h-10 w-10 rounded overflow-hidden mr-3">
-                                    <Image
-                                      src={asset.imageUrl}
-                                      alt={asset.name}
-                                      fill
-                                      className="object-cover"
-                                    />
-                                  </div>
-                                  <div>
-                                    <p className="font-medium">{asset.name}</p>
-                                    <p className="text-xs text-muted-foreground">ID: {asset.tokenId}</p>
-                                  </div>
-                                  {asset.isVerified && (
-                                    <CheckCircle className="h-4 w-4 text-green-500 ml-2" />
-                                  )}
+                                  <CircleDollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary mr-1" />
+                                  <span className="font-semibold text-sm sm:text-base">${asset.totalValue}</span>
                                 </div>
-                              </td>
-                              <td className="px-4 py-3 text-sm">
-                                <Badge variant="outline">{asset.assetType}</Badge>
-                              </td>
-                              <td className="px-4 py-3 text-sm">
-                                <div className="flex flex-col">
-                                  <span className="font-medium">${asset.currentPrice}</span>
-                                  <span className={`text-xs ${parseFloat(asset.priceChange) >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                <div className="flex items-center mt-0.5">
+                                  <span className="text-xs text-muted-foreground">Per Token:</span>
+                                  <span className="text-xs sm:text-sm ml-1">${asset.currentPrice}</span>
+                                  <span className={`text-xs ml-1 ${asset.priceChange.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
                                     {asset.priceChange}
                                   </span>
                                 </div>
-                              </td>
-                              <td className="px-4 py-3 text-sm">
-                                <div className="flex flex-col">
-                                  <span className="font-medium">{asset.ownership}</span>
-                                  <span className="text-xs text-muted-foreground">
-                                    {asset.ownedSupply}/{asset.supply} tokens
-                                  </span>
+                              </div>
+                            </div>
+                            
+                            <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2 sm:mt-3">
+                              <Badge variant="secondary" className="text-xs">
+                                <Tag className="h-3 w-3 mr-1" />
+                                {asset.assetType === "REAL_ESTATE" ? "Real Estate" : asset.assetType.charAt(0) + asset.assetType.slice(1).toLowerCase()}
+                              </Badge>
+                              <Badge variant="outline" className="text-xs">
+                                <Clock className="h-3 w-3 mr-1" />
+                                Updated: {new Date(asset.lastUpdate).toLocaleDateString()}
+                              </Badge>
+                              <Badge variant="outline" className="text-xs">
+                                Tokens: {asset.ownedSupply}/{asset.supply}
+                              </Badge>
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-2.5 sm:mt-3.5">
+                              <div>
+                                <div className="flex items-center justify-between">
+                                  <span className="text-xs text-muted-foreground">Ownership</span>
+                                  <span className="text-xs font-medium">{asset.ownership}</span>
                                 </div>
-                              </td>
-                              <td className="px-4 py-3 text-sm font-medium">${asset.totalValue}</td>
-                              <td className="px-4 py-3 text-sm text-muted-foreground">{asset.lastUpdate}</td>
-                              <td className="px-4 py-3 text-sm">
-                                <div className="flex gap-2">
-                                  <Link href={`/asset/${asset.id}`}>
-                                    <Button size="sm">Manage</Button>
-                                  </Link>
-                                  <Link href={`/verify/${asset.id}`}>
-                                    <Button size="sm" variant="outline">
-                                      <Shield className="h-4 w-4" />
-                                    </Button>
-                                  </Link>
+                                <Progress value={parseInt(asset.ownership)} className="h-1.5 mt-1 bg-muted" />
+                              </div>
+                              
+                              <div>
+                                <div className="flex items-center justify-between">
+                                  <span className="text-xs text-muted-foreground">AI Confidence</span>
+                                  <span className="text-xs font-medium">{asset.confidenceScore}%</span>
                                 </div>
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan={7} className="px-4 py-12 text-center text-muted-foreground">
-                              No assets found matching your criteria
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
-            
-            {/* Portfolio Insights Section */}
-            <Card className="mt-10">
-              <CardHeader>
-                <CardTitle className="text-lg">Portfolio Insights</CardTitle>
-                <CardDescription>
-                  Analysis and recommendations for your tokenized asset portfolio
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="space-y-2">
-                    <h3 className="font-medium">Diversification</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Your portfolio is diversified across {new Set(PORTFOLIO_ASSETS.map(a => a.assetType)).size} different asset classes, providing good protection against market volatility.
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <h3 className="font-medium">Performance</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Your assets have shown an average price increase of {(PORTFOLIO_ASSETS.reduce((sum, asset) => sum + parseFloat(asset.priceChange), 0) / PORTFOLIO_ASSETS.length).toFixed(1)}% based on the most recent valuations.
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <h3 className="font-medium">Ownership Position</h3>
-                    <p className="text-sm text-muted-foreground">
-                      You have a majority ownership position in {PORTFOLIO_ASSETS.filter(a => parseInt(a.ownership) > 50).length} of your assets, providing significant control rights.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter className="flex flex-col sm:flex-row gap-4 border-t pt-6">
-                <Link href="/dashboard/charts">
-                  <Button variant="outline" className="w-full sm:w-auto">
-                    <BarChart3 className="mr-2 h-4 w-4" />
-                    Portfolio Analytics
-                  </Button>
+                                <Progress value={asset.confidenceScore} className="h-1.5 mt-1" />
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex sm:flex-col justify-between sm:h-full gap-2 mt-3 sm:mt-0">
+                            <Button className="text-xs sm:text-sm h-8 sm:h-9 px-3 sm:px-4 flex-1 sm:flex-none">Manage Asset</Button>
+                            <Button variant="outline" className="text-xs sm:text-sm h-8 sm:h-9 px-3 sm:px-4 flex-1 sm:flex-none">
+                              <Edit className="h-3.5 w-3.5 mr-1" />
+                              Verify
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </div>
+                  </Card>
                 </Link>
-                <Link href="/marketplace">
-                  <Button className="w-full sm:w-auto">
-                    <Tag className="mr-2 h-4 w-4" />
-                    Browse Marketplace
-                  </Button>
+              ))}
+            </div>
+          )}
+          
+          {/* No assets */}
+          {sortedAssets.length === 0 && (
+            <div className="text-center py-12 rounded-lg border border-dashed">
+              <div className="mx-auto w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-3 sm:mb-4">
+                <Wallet className="h-6 w-6 text-muted-foreground" />
+              </div>
+              <h3 className="text-base sm:text-lg font-medium mb-1 sm:mb-2">No assets found</h3>
+              <p className="text-sm text-muted-foreground mb-4 sm:mb-6">
+                Try adjusting your search or filter criteria, or mint your first asset
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Button 
+                  variant="outline" 
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedAssetType('ALL');
+                    setSelectedSort('VALUE_DESC');
+                  }}
+                >
+                  Clear Filters
+                </Button>
+                <Link href="/mint">
+                  <Button className="w-full sm:w-auto">Mint New Asset</Button>
                 </Link>
-              </CardFooter>
-            </Card>
-          </>
-        )}
-      </div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   )
 } 
