@@ -31,9 +31,7 @@ export function WalletConnectButton() {
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="border-teal-accent dark:text-white text-deep-navy">
                         <Wallet className="mr-2 h-4 w-4 text-teal-accent" />
-                        <span className="hidden md:block">
-                            {formatAddress(address || '')}
-                        </span>
+                        {formatAddress(address || '')}
                         <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                 </DropdownMenuTrigger>

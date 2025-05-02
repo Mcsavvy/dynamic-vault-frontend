@@ -171,7 +171,7 @@ export default function Home() {
             </div>
             <div className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-xl transform transition-all duration-500 hover:scale-105 animate-fade-in" style={{ animationDelay: '0.6s' }}>
               <div className="absolute inset-0 bg-teal-accent/10 backdrop-blur-sm z-10 rounded-lg flex items-center justify-center">
-                <div className="relative w-4/5 h-4/5">
+                <div className="relative w-[95%] h-[95%]">
                   <Image 
                     src="/images/dashboard-preview.png" 
                     alt="DynamicVault Platform Preview"
@@ -263,7 +263,7 @@ export default function Home() {
             
             {/* Step 1 */}
             <div className="relative bg-card border border-border rounded-lg p-8 transition-all hover:shadow-md hover:-translate-y-1 duration-300">
-              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-teal-accent text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div>
+              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-teal-accent text-white dark:text-deep-navy w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div>
               <div className="text-center mt-4">
                 <h3 className="text-xl font-semibold text-foreground mb-3">Asset Submission</h3>
                 <p className="text-muted-foreground mb-4">
@@ -284,7 +284,7 @@ export default function Home() {
             
             {/* Step 2 */}
             <div className="relative bg-card border border-border rounded-lg p-8 transition-all hover:shadow-md hover:-translate-y-1 duration-300" style={{ transitionDelay: '0.1s' }}>
-              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-teal-accent text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
+              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-teal-accent text-white dark:text-deep-navy w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
               <div className="text-center mt-4">
                 <h3 className="text-xl font-semibold text-foreground mb-3">AI Valuation</h3>
                 <p className="text-muted-foreground mb-4">
@@ -305,7 +305,7 @@ export default function Home() {
             
             {/* Step 3 */}
             <div className="relative bg-card border border-border rounded-lg p-8 transition-all hover:shadow-md hover:-translate-y-1 duration-300" style={{ transitionDelay: '0.2s' }}>
-              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-teal-accent text-white w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div>
+              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-teal-accent text-white dark:text-deep-navy w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div>
               <div className="text-center mt-4">
                 <h3 className="text-xl font-semibold text-foreground mb-3">Trade & Track</h3>
                 <p className="text-muted-foreground mb-4">
@@ -378,7 +378,7 @@ export default function Home() {
                       <p className="text-xs text-muted-foreground">Initial: ${asset.initialPrice}</p>
                     </div>
                     <div className="flex flex-col items-end">
-                      <Badge variant="outline" className={`${asset.priceChange.startsWith('+') ? 'bg-green-50 text-green-600 border-green-200' : 'bg-red-50 text-red-600 border-red-200'}`}>
+                      <Badge variant="outline" className={`${asset.priceChange.startsWith('+') ? 'bg-green-50 dark:bg-transparent text-green-600 border-green-200' : 'bg-red-50 text-red-600 border-red-200'}`}>
                         <TrendingUp className="h-3 w-3 mr-1" />
                         {asset.priceChange}
                       </Badge>
@@ -397,7 +397,7 @@ export default function Home() {
                   </div>
                   
                   <Link href={`/asset/${asset.id}`} passHref>
-                    <Button className="w-full">
+                    <Button className="w-full dark:text-deep-navy">
                       {asset.isListed ? `Buy for $${asset.listingPrice}` : 'View Asset'}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>

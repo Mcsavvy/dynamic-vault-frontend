@@ -20,7 +20,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-muted hover:text-foreground",
         link: "text-foreground underline-offset-4 hover:underline",
         teal: 
-          "bg-teal-accent text-white shadow-sm hover:bg-teal-accent/90",
+          "bg-teal-accent text-white dark:text-deep-navy shadow-sm hover:bg-teal-accent/90",
         navy: 
           "bg-deep-navy text-white shadow-sm hover:bg-deep-navy/90",
         ocean: 

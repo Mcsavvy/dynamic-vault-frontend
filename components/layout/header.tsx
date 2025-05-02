@@ -10,7 +10,6 @@ import {
   BarChart3, 
   Lock,
   Menu,
-  X,
 } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { useAuthNavigation } from '@/lib/auth/use-auth-navigation'
@@ -126,8 +125,10 @@ export function Header() {
             )}
           </div>
 
-          <ThemeToggle />
-          <WalletConnectButton />
+          <div className="hidden md:flex items-center gap-2">
+            <ThemeToggle />
+            <WalletConnectButton />
+          </div>
           
           {/* Mobile Menu */}
           <div className="md:hidden">
@@ -138,27 +139,20 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
-                <div className="flex flex-col h-full py-6">
-                  <div className="flex items-center justify-between mb-8">
-                    <Link href="/" className="flex items-center gap-2">
-                      <div className="relative w-8 h-8">
-                        <Image
-                          src="/images/logo.png"
-                          alt="DynamicVault Logo"
-                          fill
-                          className="object-contain"
-                        />
-                      </div>
-                      <span className="font-montserrat font-bold text-lg text-foreground">
-                        DynamicVault
-                      </span>
-                    </Link>
-                    <SheetClose className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-                      <X className="h-4 w-4" />
-                      <span className="sr-only">Close</span>
-                    </SheetClose>
+                <Link href="/" className="absolute left-4 top-2 flex items-center gap-2">
+                  <div className="relative top-0 left-0 w-8 h-8">
+                    <Image
+                      src="/images/logo.png"
+                      alt="DynamicVault Logo"
+                      fill
+                      className="object-contain"
+                    />
                   </div>
-                  
+                  <p className="relative font-montserrat font-bold text-lg text-foreground">
+                    DynamicVault
+                  </p>
+                </Link>
+                <div className="flex flex-col h-full py-12">
                   <nav className="flex flex-col space-y-4">
                     {visibleNavItems.map((item) => (
                       <SheetClose asChild key={item.href}>
@@ -186,6 +180,7 @@ export function Header() {
                   
                   <div className="mt-auto">
                     <div className="flex justify-center">
+                      <ThemeToggle />
                       <WalletConnectButton />
                     </div>
                   </div>
