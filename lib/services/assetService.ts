@@ -312,11 +312,15 @@ export const assetService = {
     const timestamp = Date.now();
     const newFileName = `${tokenId}_image_${timestamp}.${extension}`;
     
-    // Create a new file with the formatted name
-    const renamedFile = new File([file], newFileName, { type: file.type });
+    // Convert file to buffer
+    const buffer = Buffer.from(await file.arrayBuffer());
     
     // Upload to S3
-    await uploadFileToS3(renamedFile);
+    await uploadFileToS3({
+      buffer,
+      fileName: newFileName,
+      contentType: file.type
+    });
     
     // Update the asset record to include the image key
     if (isPrimary) {
@@ -348,11 +352,15 @@ export const assetService = {
     const timestamp = Date.now();
     const newFileName = `${tokenId}_${documentType}_${timestamp}.${extension}`;
     
-    // Create a new file with the formatted name
-    const renamedFile = new File([file], newFileName, { type: file.type });
+    // Convert file to buffer
+    const buffer = Buffer.from(await file.arrayBuffer());
     
     // Upload to S3
-    await uploadFileToS3(renamedFile);
+    await uploadFileToS3({
+      buffer,
+      fileName: newFileName,
+      contentType: file.type
+    });
     
     // Update the asset record
     await Asset.updateOne(
