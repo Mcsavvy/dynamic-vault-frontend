@@ -25,6 +25,7 @@ interface IBlockchain {
 }
 
 export interface IPriceHistory extends Document {
+  _id: mongoose.Types.ObjectId;
   assetId: mongoose.Types.ObjectId | IAsset;
   tokenId: number;
   price: number;

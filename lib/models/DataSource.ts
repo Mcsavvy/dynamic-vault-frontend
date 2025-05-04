@@ -22,6 +22,7 @@ interface ISourceMetrics {
 }
 
 export interface IDataSource extends Document {
+  _id: mongoose.Types.ObjectId;
   name: string;
   type: string;
   url?: string;

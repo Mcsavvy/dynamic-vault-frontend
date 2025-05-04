@@ -10,6 +10,7 @@ export interface IApiKey {
 }
 
 export interface IUser extends Document {
+  _id: mongoose.Types.ObjectId;
   walletAddress: string;
   nonce: string;
   nonceExpiry: Date;

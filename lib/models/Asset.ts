@@ -67,6 +67,7 @@ interface IAssetStats {
 }
 
 export interface IAsset extends Document {
+  _id: mongoose.Types.ObjectId;
   tokenId: number;
   contractAddress: string;
   name: string;

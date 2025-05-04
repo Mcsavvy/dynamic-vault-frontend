@@ -9,6 +9,7 @@ interface IBlockchainData {
 }
 
 export interface ITransaction extends Document {
+  _id: mongoose.Types.ObjectId;
   type: string;
   tokenId: number;
   assetId: mongoose.Types.ObjectId | IAsset;

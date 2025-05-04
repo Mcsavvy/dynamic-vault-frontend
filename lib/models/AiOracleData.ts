@@ -20,6 +20,7 @@ interface IOnChainReference {
 }
 
 export interface IAiOracleData extends Document {
+  _id: mongoose.Types.ObjectId;
   assetId: mongoose.Types.ObjectId | IAsset;
   tokenId: number;
   timestamp: Date;

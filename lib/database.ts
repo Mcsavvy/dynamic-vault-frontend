@@ -38,4 +38,4 @@ export default async function connectToDatabase() {
 
 // Register the models
 // The models will be imported and executed here automatically
-import './lib/models';
+import './models';
