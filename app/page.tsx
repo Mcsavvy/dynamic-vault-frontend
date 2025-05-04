@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { WalletConnectButton } from "@/components/web3/wallet-connect";
+import { ImageWithFallback } from "@/components/ui/image-with-fallback";
 import { 
   ChevronRight, 
   ArrowRight, 
@@ -172,7 +172,7 @@ export default function Home() {
             <div className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-xl transform transition-all duration-500 hover:scale-105 animate-fade-in" style={{ animationDelay: '0.6s' }}>
               <div className="absolute inset-0 bg-teal-accent/10 backdrop-blur-sm z-10 rounded-lg flex items-center justify-center">
                 <div className="relative w-[95%] h-[95%]">
-                  <Image 
+                  <ImageWithFallback 
                     src="/images/dashboard-preview.png" 
                     alt="DynamicVault Platform Preview"
                     fill
@@ -344,7 +344,7 @@ export default function Home() {
             {FEATURED_ASSETS.map((asset) => (
               <div key={asset.id} className="bg-card border border-border rounded-lg overflow-hidden transition-all hover:shadow-md hover:-translate-y-1 duration-300">
                 <div className="relative h-48 w-full">
-                  <Image 
+                  <ImageWithFallback 
                     src={asset.imageUrl}
                     alt={asset.name}
                     fill

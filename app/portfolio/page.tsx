@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useAuth } from '@/lib/auth/auth-context'
 import Link from 'next/link'
-import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -38,6 +37,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 
 // Mock user portfolio data
 const PORTFOLIO_ASSETS = [
@@ -326,10 +326,11 @@ export default function PortfolioPage() {
                     <div className="relative">
                       <div className="aspect-[16/9] bg-muted relative">
                         {asset.imageUrl && (
-                          <Image 
+                          <ImageWithFallback
                             src={asset.imageUrl} 
                             alt={asset.name}
                             fill
+                            
                             className="object-cover"
                           />
                         )}
@@ -409,7 +410,7 @@ export default function PortfolioPage() {
                       <div className="relative sm:w-60 lg:w-72">
                         <div className="aspect-[16/9] sm:aspect-auto sm:h-full bg-muted relative">
                           {asset.imageUrl && (
-                            <Image 
+                            <ImageWithFallback
                               src={asset.imageUrl} 
                               alt={asset.name}
                               fill

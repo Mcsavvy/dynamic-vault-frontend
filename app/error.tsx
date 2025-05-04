@@ -2,9 +2,9 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle } from 'lucide-react';
+import { ImageWithFallback } from '@/components/ui/image-with-fallback';
 
 export default function Error({
   error,
@@ -21,7 +21,7 @@ export default function Error({
   return (
     <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center text-center">
       <div className="relative w-24 h-24 mb-6">
-        <Image
+        <ImageWithFallback
           src="/images/logo.png"
           alt="DynamicVault Logo"
           fill

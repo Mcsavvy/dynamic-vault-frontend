@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState } from 'react'
 import { Twitter, Github, Linkedin, ChevronDown, ChevronUp } from 'lucide-react'
+import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 
 export function Footer() {
   const [platformExpanded, setPlatformExpanded] = useState(false)
@@ -16,7 +16,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="relative w-8 h-8">
-                <Image
+                <ImageWithFallback
                   src="/images/logo.png"
                   alt="DynamicVault Logo"
                   fill

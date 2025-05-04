@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
@@ -13,6 +12,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
 import { useEffect } from 'react'
+import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 
 // Mock asset data reflecting RWAAssetContract structure
 const ASSET = {
@@ -168,12 +168,12 @@ export default function AssetDetailPage({ params }: { params: { assetId: string 
                 <div className="lg:col-span-1">
                     <div className="bg-card dark:bg-card border border-border rounded-lg overflow-hidden">
                         <div className="relative aspect-square w-full rounded-md overflow-hidden mb-4">
-                                <Image
+                            <ImageWithFallback
                                 src={ASSET.imageUrl} 
                                 alt={ASSET.name} 
-                                    fill
-                                    className="object-cover"
-                                />
+                                fill
+                                className="object-cover"
+                            />
                             <div className="absolute top-2 right-2 z-10">
                                 <Badge variant="navy">
                                     {ASSET.assetType}
@@ -498,19 +498,19 @@ export default function AssetDetailPage({ params }: { params: { assetId: string 
                     {[1, 2, 3].map((i) => (
                         <div key={i} className="bg-muted rounded-lg overflow-hidden">
                             <div className="relative h-32 sm:h-40 w-full">
-                                <Image 
+                                <ImageWithFallback
                                     src="/images/asset-art.jpg" 
                                     alt={`Related Asset ${i}`} 
                                     fill 
                                     className="object-cover"
-                                                    />
-                                                </div>
+                                />
+                            </div>
                             <div className="p-3 sm:p-4">
                                 <h3 className="font-semibold text-foreground text-sm sm:text-base">Related Asset {i}</h3>
                                 <p className="text-xs sm:text-sm text-muted-foreground mb-1 sm:mb-2">Short description of the related asset</p>
                                 <p className="font-bold text-foreground text-sm sm:text-base">$85,000</p>
-                                                </div>
-                                            </div>
+                            </div>
+                        </div>
                     ))}
                 </div>
             </div>

@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge"
 import { motion } from "framer-motion"
 import { TrendingUp, TrendingDown, AlertCircle } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
+import { ImageWithFallback } from "@/components/ui/image-with-fallback"
 
 interface AssetCardProps {
     asset: {
@@ -36,7 +36,7 @@ export function AssetCard({ asset }: AssetCardProps) {
                 <Card className="overflow-hidden border border-gray-200 shadow-card">
                     <CardHeader className="p-0">
                         <div className="relative h-48 w-full">
-                            <Image
+                            <ImageWithFallback
                                 src={asset.image}
                                 alt={asset.name}
                                 fill

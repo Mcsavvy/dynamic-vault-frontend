@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search, Filter, ChevronDown, CheckCircle, Clock, Tag } from 'lucide-react';
+import { ImageWithFallback } from '@/components/ui/image-with-fallback';
 
 // Mock asset data reflecting the RWAAssetContract structure
 const ASSETS = [
@@ -174,7 +174,7 @@ export default function AssetListPage() {
                     </Badge>
                   </div>
                 )}
-                <Image 
+                <ImageWithFallback
                   src={asset.imageUrl} 
                   alt={asset.name}
                   fill

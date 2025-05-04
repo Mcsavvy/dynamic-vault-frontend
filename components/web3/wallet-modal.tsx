@@ -4,7 +4,7 @@ import { useConnect, type Connector } from "wagmi";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import Image from "next/image";
+import { ImageWithFallback } from "@/components/ui/image-with-fallback";
 // import type { Config, ConnectErrorType, ResolvedRegister } from '@wagmi/core'
 // import {
 //     type ConnectData,
@@ -102,13 +102,13 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
                             >
                                 <div className="flex items-center">
                                     {connector.name.toLowerCase().includes("metamask") && (
-                                        <Image src="/assets/metamask.svg" alt="Metamask" width={24} height={24} />
+                                        <ImageWithFallback src="/assets/metamask.svg" alt="Metamask" width={24} height={24} />
                                     )}
                                     {connector.name.toLowerCase().includes("coinbase") && (
-                                        <Image src="/assets/coinbase.svg" alt="Coinbase" width={24} height={24} />
+                                        <ImageWithFallback src="/assets/coinbase.svg" alt="Coinbase" width={24} height={24} />
                                     )}
                                     {connector.name.toLowerCase().includes("walletconnect") && (
-                                        <Image src="/assets/walletconnect.svg" alt="WalletConnect" width={24} height={24} />
+                                        <ImageWithFallback src="/assets/walletconnect.svg" alt="WalletConnect" width={24} height={24} />
                                     )}
                                     <span className="ml-2 font-medium text-deep-navy">
                                         {connector.name}

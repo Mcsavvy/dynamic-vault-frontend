@@ -1,10 +1,10 @@
-import Image from 'next/image';
+import { ImageWithFallback } from '@/components/ui/image-with-fallback';
 
 export default function Loading() {
   return (
     <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center text-center min-h-[60vh]">
       <div className="relative w-20 h-20 mb-6 animate-bounce-slow">
-        <Image
+        <ImageWithFallback
           src="/images/logo.png"
           alt="DynamicVault Logo"
           fill

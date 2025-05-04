@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useAuth } from '@/lib/auth/auth-context'
 import { useToast } from '@/hooks/use-toast'
 import Link from 'next/link'
-import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { 
   Card, 
@@ -26,6 +25,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 
 // Mock data for active listings
 const ACTIVE_LISTINGS = [
@@ -241,7 +241,7 @@ export default function ManageListingsPage() {
               <Card key={listing.id} className="overflow-hidden">
                 <div className="flex flex-col md:flex-row">
                   <div className="relative h-48 md:h-auto md:w-48 bg-muted flex-shrink-0">
-                    <Image
+                    <ImageWithFallback
                       src={listing.imageUrl}
                       alt={listing.name}
                       fill
@@ -328,7 +328,7 @@ export default function ManageListingsPage() {
                           
                           <div className="flex items-center space-x-4 py-4">
                             <div className="relative h-16 w-16 rounded-md overflow-hidden flex-shrink-0">
-                              <Image
+                              <ImageWithFallback
                                 src={listing.imageUrl}
                                 alt={listing.name}
                                 fill
@@ -392,7 +392,7 @@ export default function ManageListingsPage() {
               <Card key={offer.id} className="overflow-hidden">
                 <div className="flex flex-col md:flex-row">
                   <div className="relative h-32 md:h-auto md:w-32 bg-muted flex-shrink-0">
-                    <Image
+                    <ImageWithFallback
                       src={offer.assetImageUrl}
                       alt={offer.assetName}
                       fill
@@ -512,7 +512,7 @@ export default function ManageListingsPage() {
                         <td className="px-4 py-4">
                           <div className="flex items-center">
                             <div className="relative h-10 w-10 rounded overflow-hidden mr-3">
-                              <Image
+                              <ImageWithFallback
                                 src={sale.assetImageUrl}
                                 alt={sale.assetName}
                                 fill

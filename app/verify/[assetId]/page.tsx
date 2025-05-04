@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useAuth } from '@/lib/auth/auth-context'
 import { useToast } from '@/hooks/use-toast'
 import Link from 'next/link'
-import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { 
@@ -33,6 +32,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 
 // Mock asset data
 const PORTFOLIO_ASSETS = [
@@ -221,7 +221,7 @@ export default function VerifyOwnershipPage({ params }: { params: { assetId: str
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4 mb-6">
                   <div className="relative h-20 w-20 rounded-md overflow-hidden flex-shrink-0">
-                    <Image
+                    <ImageWithFallback
                       src={asset.imageUrl}
                       alt={asset.name}
                       fill

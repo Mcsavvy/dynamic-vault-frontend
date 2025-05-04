@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Search, Filter, Grid3X3, List, Tag, CheckCircle, Clock, CircleDollarSign } from 'lucide-react'
-import Image from 'next/image'
+import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 import Link from 'next/link'
 
 // Mock marketplace listing data
@@ -254,7 +254,7 @@ export default function MarketplacePage() {
                 <div className="relative">
                   <div className="aspect-[16/9] bg-muted relative">
                     {listing.imageUrl && (
-                      <Image 
+                      <ImageWithFallback 
                         src={listing.imageUrl} 
                         alt={listing.name}
                         fill
@@ -331,7 +331,7 @@ export default function MarketplacePage() {
                   <div className="relative sm:w-60 lg:w-72">
                     <div className="aspect-[16/9] sm:aspect-auto sm:h-full bg-muted relative">
                       {listing.imageUrl && (
-                        <Image 
+                        <ImageWithFallback 
                           src={listing.imageUrl} 
                           alt={listing.name}
                           fill

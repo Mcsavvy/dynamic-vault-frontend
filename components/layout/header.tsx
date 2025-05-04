@@ -1,10 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState } from 'react'
 import { WalletConnectButton } from '@/components/web3/wallet-connect'
 import { Button } from '@/components/ui/button'
+import { ImageWithFallback } from '@/components/ui/image-with-fallback'
 import { 
   BookOpen, 
   BarChart3, 
@@ -39,7 +39,7 @@ export function Header() {
         <div className="flex items-center gap-6 sm:gap-10">
           <Link href="/" className="flex items-center gap-2">
             <div className="relative w-8 h-8 sm:w-10 sm:h-10">
-              <Image
+              <ImageWithFallback
                 src="/images/logo.png"
                 alt="DynamicVault Logo"
                 fill
@@ -149,7 +149,7 @@ export function Header() {
               <SheetContent side="right">
                 <Link href="/" className="absolute left-4 top-2 flex items-center gap-2">
                   <div className="relative top-0 left-0 w-8 h-8">
-                    <Image
+                    <ImageWithFallback
                       src="/images/logo.png"
                       alt="DynamicVault Logo"
                       fill
