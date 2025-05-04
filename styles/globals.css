@@ -4,16 +4,18 @@
 
 @layer base {
   :root {
+    /* Light mode background and foreground */
     --background: 210 33% 99%;
     --foreground: 222 47% 11%;
     
-    /* Brand Colors */
+    /* Brand Colors - consistent across themes */
     --navy: 213 48% 20%; /* Deep Navy #1A2E4C */
     --teal: 169 61% 53%; /* Teal Accent #3ECFB2 */
     --ocean: 204 57% 38%; /* Ocean Blue #2A6A9A */
     
+    /* Light mode specific colors */
     --primary: 169 61% 53%; /* Using Teal as primary */
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 213 48% 20%; /* Navy text on teal for better contrast */
     
     --secondary: 213 48% 20%; /* Using Navy as secondary */
     --secondary-foreground: 0 0% 100%;
@@ -22,57 +24,71 @@
     --accent-foreground: 0 0% 100%;
     
     --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted-foreground: 213 25% 40%; /* Slightly darker for better readability */
     
     --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
+    --card-foreground: 222 47% 11%;
     
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --popover-foreground: 222 47% 11%;
     
     --radius: 0.5rem; /* 8px */
     --radius-sm: 0.25rem; /* 4px */
     
-    --destructive: 0 100% 50%;
+    --destructive: 0 85% 50%;
     --destructive-foreground: 210 40% 98%;
     
     --ring: 169 61% 53%; /* Using teal as ring color */
+    
+    /* Additional semantic colors */
+    --success: 142 76% 36%; /* #27AE60 */
+    --warning: 45 100% 51%; /* #FFCC00 */
+    --info: 204 94% 94%; /* #EBF8FF */
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    /* Dark mode background and foreground - more distinct */
+    --background: 222 47% 11%;
     --foreground: 210 40% 98%;
     
     /* Brand Colors remain the same in dark mode for consistency */
     
-    --card: 222.2 84% 4.9%;
+    /* Dark mode specific UI colors - more vibrant against dark bg */
+    --card: 222 47% 14%;
     --card-foreground: 210 40% 98%;
     
-    --popover: 222.2 84% 4.9%;
+    --popover: 222 47% 14%;
     --popover-foreground: 210 40% 98%;
     
-    --primary: 169 61% 53%;
-    --primary-foreground: 213 48% 20%;
+    /* Adjusted primary for better visibility on dark backgrounds */
+    --primary: 169 70% 60%;
+    --primary-foreground: 213 48% 15%; /* Darker navy for better contrast on bright teal */
     
-    --secondary: 213 48% 20%;
+    --secondary: 213 48% 25%;
     --secondary-foreground: 0 0% 100%;
     
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 217 33% 17.5%;
+    --muted-foreground: 215 20% 75%; /* Brighter for better visibility on dark bg */
     
-    --accent: 204 57% 38%;
+    /* Brighter accent for dark mode */
+    --accent: 204 70% 45%;
     --accent-foreground: 0 0% 100%;
     
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 63% 40%; /* Deeper red for dark mode */
     --destructive-foreground: 210 40% 98%;
     
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
+    --border: 217 33% 25%; /* Slightly brighter border for dark mode */
+    --input: 217 33% 25%;
     
-    --ring: 169 61% 53%;
+    --ring: 169 70% 60%;
+    
+    /* Additional semantic colors - adjusted for dark mode */
+    --success: 142 76% 45%;
+    --warning: 45 100% 60%;
+    --info: 204 94% 25%;
   }
 }
 
