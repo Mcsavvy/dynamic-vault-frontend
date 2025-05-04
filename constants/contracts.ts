@@ -5,9 +5,9 @@ export const CONTRACT_ADDRESSES: {
   DynamicPricingAgent: Address;
   MarketplaceContract: Address;
 } = {
-  RWAAssetContract: "0xd61E1Ccf90c293Ec1B02ad398626A3348Ef13A8a",
-  DynamicPricingAgent: "0x97c82cdCAfcd36362C0C2CE77cC59B5519653deD",
-  MarketplaceContract: "0x27A756Bf342017B37f3AcBA780995F270deCEb89",
+  RWAAssetContract: process.env.NEXT_PUBLIC_RWA_ASSET_CONTRACT,
+  DynamicPricingAgent: process.env.NEXT_PUBLIC_DYNAMIC_PRICING_AGENT_CONTRACT,
+  MarketplaceContract: process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT,
 };
 
 // ABI imports would go here
