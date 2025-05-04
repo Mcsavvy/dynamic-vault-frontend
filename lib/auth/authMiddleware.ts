@@ -74,7 +74,7 @@ export function requireRoles(req: AuthenticatedRequest, roles: string[]): NextRe
  */
 export async function withAuth<T>(
   request: NextRequest,
-  handler: (req: AuthenticatedRequest) => Promise<NextResponse<T>>,
+  handler: (req: AuthenticatedRequest) => Promise<NextResponse<T> | NextResponse>,
   requiredRoles: string[] = []
 ): Promise<NextResponse> {
   // Authenticate the request
