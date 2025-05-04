@@ -8,15 +8,23 @@ import {
 const s3 = new S3Client({
   endpoint: process.env.BACKBLAZE_ENDPOINT,
   region: process.env.BACKBLAZE_REGION,
+  requestChecksumCalculation: "WHEN_REQUIRED",
 });
 
 const bucketName = process.env.BACKBLAZE_BUCKET_NAME;
 
-export const uploadFileToS3 = async (file: File) => {
+export interface UploadParams {
+  buffer: Buffer;
+  fileName: string;
+  contentType: string;
+}
+
+export const uploadFileToS3 = async (params: UploadParams) => {
   const command = new PutObjectCommand({
     Bucket: bucketName,
-    Key: file.name,
-    Body: file,
+    Key: params.fileName,
+    Body: params.buffer,
+    ContentType: params.contentType,
   });
 
   const response = await s3.send(command);
