@@ -5,21 +5,21 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect } from "react";
-import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/auth/auth-context";
 
 export default function ConnectPage() {
-  const { isConnected } = useAccount();
+  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
-  // Handle redirect if user is already connected
+  // Handle redirect if user is already authenticated
   useEffect(() => {
-    if (isConnected) {
+    if (isAuthenticated && !isLoading) {
       const redirectPath = sessionStorage.getItem('redirectAfterAuth') || '/';
       sessionStorage.removeItem('redirectAfterAuth');
       router.push(redirectPath);
     }
-  }, [isConnected, router]);
+  }, [isAuthenticated, isLoading, router]);
 
   return (
     <div className="text-center">
@@ -48,24 +48,21 @@ export default function ConnectPage() {
         <WalletConnectButton />
       </div>
       
-      <div className="text-sm text-slate">
-        <p className="mb-2">
-          By connecting, you agree to our{" "}
-          <Link href="/terms" className="text-ocean-blue hover:underline">
-            Terms of Service
-          </Link>{" "}
-          and{" "}
-          <Link href="/privacy" className="text-ocean-blue hover:underline">
-            Privacy Policy
-          </Link>
-          .
+      <div className="max-w-md mx-auto">
+        <h2 className="text-lg font-medium text-deep-navy mb-2">Why connect a wallet?</h2>
+        <p className="text-slate mb-4">
+          Connecting your wallet allows you to securely authenticate with DynamicVault
+          using your Ethereum address. We never have access to your private keys.
         </p>
-        <p>
-          Need help?{" "}
-          <Link href="/support" className="text-ocean-blue hover:underline">
-            Contact Support
-          </Link>
+        <p className="text-slate mb-4">
+          You&apos;ll be able to:
         </p>
+        <ul className="text-left text-slate list-disc list-inside mb-6">
+          <li>View your asset portfolio</li>
+          <li>Track your transaction history</li>
+          <li>Participate in the marketplace</li>
+          <li>Access personalized analytics</li>
+        </ul>
       </div>
     </div>
   );

@@ -10,9 +10,12 @@ import {
   BarChart3, 
   Lock,
   Menu,
+  User,
 } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { useAuthNavigation } from '@/lib/auth/use-auth-navigation'
+import { useAuth } from '@/lib/auth/auth-context'
+import { ProfileDropdown } from '@/components/user/profile-dropdown'
 import {
   Sheet,
   SheetContent,
@@ -27,6 +30,7 @@ import {
 
 export function Header() {
   const { visibleNavItems, actionNavItems, isAuthenticated } = useAuthNavigation()
+  const { address } = useAuth()
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
 
   return (
@@ -127,7 +131,11 @@ export function Header() {
 
           <div className="hidden md:flex items-center gap-2">
             <ThemeToggle />
-            <WalletConnectButton />
+            {isAuthenticated && address ? (
+              <ProfileDropdown />
+            ) : (
+              <WalletConnectButton />
+            )}
           </div>
           
           {/* Mobile Menu */}
@@ -164,6 +172,18 @@ export function Header() {
                         </Link>
                       </SheetClose>
                     ))}
+                    
+                    {isAuthenticated && (
+                      <SheetClose asChild>
+                        <Link 
+                          href="/profile"
+                          className="text-foreground font-medium hover:text-primary transition-colors flex items-center gap-2 text-lg"
+                        >
+                          <User className="h-4 w-4" />
+                          <span>My Profile</span>
+                        </Link>
+                      </SheetClose>
+                    )}
                     
                     {!isAuthenticated && (
                       <SheetClose asChild>

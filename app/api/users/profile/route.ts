@@ -76,12 +76,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   });
 }
 
-// Update user profile
-export async function PATCH(request: NextRequest): Promise<NextResponse> {
+// Update user profile - using PUT instead of PATCH for compatibility
+export async function PUT(request: NextRequest): Promise<NextResponse> {
   // Connect to the database
   await connectToDatabase();
 
-  return withAuth(request, async (req) => {
+  return withAuth<ResponseTypes>(request, async (req) => {
     // Validate request body
     const [bodyData, validationError] = await validateBody(request, userProfileUpdateSchema);
     
@@ -148,4 +148,9 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
       );
     }
   });
+}
+
+// For backward compatibility, maintain the PATCH method
+export async function PATCH(request: NextRequest): Promise<NextResponse> {
+  return PUT(request);
 } 
